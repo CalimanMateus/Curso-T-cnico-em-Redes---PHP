@@ -18,21 +18,15 @@
                     <h2 class="card-title">Calculadora Simples</h2>
                 </div>
                 <form method="post" action="calculadoras.php">
-                    <div class="calculadora-display" id="display">0</div>
+                    <div class="calculadora-display" id="display" tabindex="0">0</div>
                     
                     <input type="hidden" name="expressao" id="expressao" value="">
                     <input type="hidden" name="resultado" id="resultado" value="">
                     
-                    <!-- Campo manual opcional -->
-                    <div class="form-group">
-                        <label>Ou digite manualmente:</label>
-                        <input type="text" name="expressao_manual" class="calculadora-input-manual" placeholder="Ex: 5 + 3 ou sqrt(16)">
-                    </div>
-                    
                     <!-- Botões da Calculadora -->
                     <div class="calculadora-botoes">
                         <!-- Linha 1 -->
-                        <button type="button" class="btn-especial" onclick="adicionarExpressao('sqrt(')">√</button>
+                        <button type="button" class="btn-especial" onclick="calcularRaizQuadrada()">√</button>
                         <button type="button" class="btn-limpar" onclick="limpar()">C</button>
                         <button type="button" class="btn-limpar" onclick="apagar()">⌫</button>
                         <button type="button" class="btn-operacao" onclick="adicionarExpressao('/')">÷</button>
@@ -231,13 +225,28 @@
             expressaoInput.value = expressao;
         }
 
+        function calcularRaizQuadrada() {
+            if (expressao === '' || isNaN(parseFloat(expressao))) {
+                display.textContent = 'Erro: Digite um número primeiro';
+                return;
+            }
+            
+            const numero = parseFloat(expressao);
+            if (numero < 0) {
+                display.textContent = 'Erro: Não existe raiz de número negativo';
+                return;
+            }
+            
+            const resultado = Math.sqrt(numero);
+            display.textContent = resultado;
+            expressao = resultado.toString();
+            expressaoInput.value = expressao;
+        }
+
         function calcular() {
             try {
-                // Substituir sqrt() para Math.sqrt()
-                let expressaoCalculavel = expressao.replace(/sqrt\(/g, 'Math.sqrt(');
-                
-                // Calcular o resultado
-                let resultado = eval(expressaoCalculavel);
+                // Calcular expressões matemáticas básicas (sem sqrt)
+                let resultado = eval(expressao);
                 
                 // Exibir no display
                 display.textContent = resultado;
@@ -253,35 +262,41 @@
             }
         }
 
-        // Suporte para teclado
+        // Suporte para teclado - apenas quando o display está focado
         document.addEventListener('keydown', function(event) {
+            const activeElement = document.activeElement;
+            const isCalculadoraFocus = activeElement === display;
+            
+            if (!isCalculadoraFocus) return;
+            
             if (event.key >= '0' && event.key <= '9') {
+                event.preventDefault();
                 adicionarExpressao(event.key);
             } else if (event.key === '.') {
+                event.preventDefault();
                 adicionarExpressao('.');
             } else if (event.key === '+') {
+                event.preventDefault();
                 adicionarExpressao('+');
             } else if (event.key === '-') {
+                event.preventDefault();
                 adicionarExpressao('-');
             } else if (event.key === '*') {
+                event.preventDefault();
                 adicionarExpressao('*');
             } else if (event.key === '/') {
                 event.preventDefault();
                 adicionarExpressao('/');
             } else if (event.key === 'Enter' || event.key === '=') {
+                event.preventDefault();
                 calcular();
             } else if (event.key === 'Escape') {
+                event.preventDefault();
                 limpar();
             } else if (event.key === 'Backspace') {
+                event.preventDefault();
                 apagar();
             }
-        });
-
-        // Sincronizar campo manual com display
-        document.querySelector('.calculadora-input-manual').addEventListener('input', function() {
-            expressao = this.value;
-            display.textContent = expressao || '0';
-            expressaoInput.value = expressao;
         });
 
         // Funções das calculadoras geométricas
