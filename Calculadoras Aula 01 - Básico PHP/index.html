@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadoras Geométricas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Calculadoras Geométricas</h1>
+        
+        <div class="calculadoras-grid">
+            <!-- Calculadora Simples -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔢</div>
+                    <h2 class="card-title">Calculadora Simples</h2>
+                </div>
+                <form method="post" action="calculadoras.php">
+                    <div class="calculadora-display" id="display">0</div>
+                    
+                    <input type="hidden" name="expressao" id="expressao" value="">
+                    <input type="hidden" name="resultado" id="resultado" value="">
+                    
+                    <!-- Campo manual opcional -->
+                    <div class="form-group">
+                        <label>Ou digite manualmente:</label>
+                        <input type="text" name="expressao_manual" class="calculadora-input-manual" placeholder="Ex: 5 + 3 ou sqrt(16)">
+                    </div>
+                    
+                    <!-- Botões da Calculadora -->
+                    <div class="calculadora-botoes">
+                        <!-- Linha 1 -->
+                        <button type="button" class="btn-especial" onclick="adicionarExpressao('sqrt(')">√</button>
+                        <button type="button" class="btn-limpar" onclick="limpar()">C</button>
+                        <button type="button" class="btn-limpar" onclick="apagar()">⌫</button>
+                        <button type="button" class="btn-operacao" onclick="adicionarExpressao('/')">÷</button>
+                        
+                        <!-- Linha 2 -->
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('7')">7</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('8')">8</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('9')">9</button>
+                        <button type="button" class="btn-operacao" onclick="adicionarExpressao('*')">×</button>
+                        
+                        <!-- Linha 3 -->
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('4')">4</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('5')">5</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('6')">6</button>
+                        <button type="button" class="btn-operacao" onclick="adicionarExpressao('-')">-</button>
+                        
+                        <!-- Linha 4 -->
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('1')">1</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('2')">2</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('3')">3</button>
+                        <button type="button" class="btn-operacao" onclick="adicionarExpressao('+')">+</button>
+                        
+                        <!-- Linha 5 -->
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('0')">0</button>
+                        <button type="button" class="btn-numero" onclick="adicionarExpressao('.')">.</button>
+                        <button type="button" class="btn-igual" onclick="calcular()">=</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Calculadora de Área do Quadrado -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⬜</div>
+                    <h2 class="card-title">Área do Quadrado</h2>
+                </div>
+                <div class="form-group">
+                    <label for="lado_quadrado">Lado do quadrado (cm):</label>
+                    <input type="number" id="lado_quadrado" step="any" placeholder="Digite o lado em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularAreaQuadrado()">Calcular Área</button>
+                <div id="resultado-quadrado"></div>
+            </div>
+
+            <!-- Calculadora de Área do Retângulo -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">▭</div>
+                    <h2 class="card-title">Área do Retângulo</h2>
+                </div>
+                <div class="form-group">
+                    <label for="base_retangulo">Base (cm):</label>
+                    <input type="number" id="base_retangulo" step="any" placeholder="Digite a base em cm">
+                </div>
+                <div class="form-group">
+                    <label for="altura_retangulo">Altura (cm):</label>
+                    <input type="number" id="altura_retangulo" step="any" placeholder="Digite a altura em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularAreaRetangulo()">Calcular Área</button>
+                <div id="resultado-retangulo"></div>
+            </div>
+
+            <!-- Calculadora de Área de Triângulos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔺</div>
+                    <h2 class="card-title">Área de Triângulos</h2>
+                </div>
+                <div class="form-group">
+                    <label for="tipo_triangulo">Tipo de triângulo:</label>
+                    <select id="tipo_triangulo">
+                        <option value="geral">Qualquer triângulo</option>
+                        <option value="equilatero">Equilátero</option>
+                        <option value="isosceles">Isósceles</option>
+                        <option value="escaleno">Escaleno</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="base_triangulo">Base (cm):</label>
+                    <input type="number" id="base_triangulo" step="any" placeholder="Digite a base em cm">
+                </div>
+                <div class="form-group">
+                    <label for="altura_triangulo">Altura (cm):</label>
+                    <input type="number" id="altura_triangulo" step="any" placeholder="Digite a altura em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularAreaTriangulo()">Calcular Área</button>
+                <div id="resultado-triangulo"></div>
+            </div>
+
+            <!-- Calculadora de Círculo -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⭕</div>
+                    <h2 class="card-title">Círculo</h2>
+                </div>
+                <div class="form-group">
+                    <label for="raio">Raio (cm):</label>
+                    <input type="number" id="raio" step="any" placeholder="Digite o raio em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularCirculo()">Calcular Área e Circunferência</button>
+                <div id="resultado-circulo"></div>
+            </div>
+
+            <!-- Calculadora de Perímetros -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📏</div>
+                    <h2 class="card-title">Perímetros</h2>
+                </div>
+                <div class="form-group">
+                    <label for="forma_perimetro">Forma geométrica:</label>
+                    <select id="forma_perimetro">
+                        <option value="quadrado">Quadrado</option>
+                        <option value="retangulo">Retângulo</option>
+                        <option value="triangulo">Triângulo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lado1_perimetro">Lado 1 (cm):</label>
+                    <input type="number" id="lado1_perimetro" step="any" placeholder="Digite o lado 1 em cm">
+                </div>
+                <div class="form-group">
+                    <label for="lado2_perimetro">Lado 2 (cm) - se aplicável:</label>
+                    <input type="number" id="lado2_perimetro" step="any" placeholder="Digite o lado 2 em cm">
+                </div>
+                <div class="form-group">
+                    <label for="lado3_perimetro">Lado 3 (cm) - para triângulo:</label>
+                    <input type="number" id="lado3_perimetro" step="any" placeholder="Digite o lado 3 em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularPerimetro()">Calcular Perímetro</button>
+                <div id="resultado-perimetro"></div>
+            </div>
+
+            <!-- Calculadora de Trapézio -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⬟</div>
+                    <h2 class="card-title">Área do Trapézio</h2>
+                </div>
+                <div class="form-group">
+                    <label for="base_maior">Base maior (cm):</label>
+                    <input type="number" id="base_maior" step="any" placeholder="Digite a base maior em cm">
+                </div>
+                <div class="form-group">
+                    <label for="base_menor">Base menor (cm):</label>
+                    <input type="number" id="base_menor" step="any" placeholder="Digite a base menor em cm">
+                </div>
+                <div class="form-group">
+                    <label for="altura_trapezio">Altura (cm):</label>
+                    <input type="number" id="altura_trapezio" step="any" placeholder="Digite a altura em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularTrapezio()">Calcular Área</button>
+                <div id="resultado-trapezio"></div>
+            </div>
+
+            <!-- Calculadora de Losango -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">♦</div>
+                    <h2 class="card-title">Área do Losango</h2>
+                </div>
+                <div class="form-group">
+                    <label for="diagonal_maior">Diagonal maior (cm):</label>
+                    <input type="number" id="diagonal_maior" step="any" placeholder="Digite a diagonal maior em cm">
+                </div>
+                <div class="form-group">
+                    <label for="diagonal_menor">Diagonal menor (cm):</label>
+                    <input type="number" id="diagonal_menor" step="any" placeholder="Digite a diagonal menor em cm">
+                </div>
+                <button type="button" class="btn-calcular" onclick="calcularLosango()">Calcular Área</button>
+                <div id="resultado-losango"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let expressao = '';
+        let display = document.getElementById('display');
+        let expressaoInput = document.getElementById('expressao');
+
+        function adicionarExpressao(valor) {
+            expressao += valor;
+            display.textContent = expressao;
+            expressaoInput.value = expressao;
+        }
+
+        function limpar() {
+            expressao = '';
+            display.textContent = '0';
+            expressaoInput.value = '';
+        }
+
+        function apagar() {
+            expressao = expressao.slice(0, -1);
+            display.textContent = expressao || '0';
+            expressaoInput.value = expressao;
+        }
+
+        function calcular() {
+            try {
+                // Substituir sqrt() para Math.sqrt()
+                let expressaoCalculavel = expressao.replace(/sqrt\(/g, 'Math.sqrt(');
+                
+                // Calcular o resultado
+                let resultado = eval(expressaoCalculavel);
+                
+                // Exibir no display
+                display.textContent = resultado;
+                document.getElementById('resultado').value = resultado;
+                
+                // Atualizar a expressão para mostrar o resultado
+                expressao = resultado.toString();
+                expressaoInput.value = expressao;
+            } catch (erro) {
+                display.textContent = 'Erro';
+                expressao = '';
+                expressaoInput.value = '';
+            }
+        }
+
+        // Suporte para teclado
+        document.addEventListener('keydown', function(event) {
+            if (event.key >= '0' && event.key <= '9') {
+                adicionarExpressao(event.key);
+            } else if (event.key === '.') {
+                adicionarExpressao('.');
+            } else if (event.key === '+') {
+                adicionarExpressao('+');
+            } else if (event.key === '-') {
+                adicionarExpressao('-');
+            } else if (event.key === '*') {
+                adicionarExpressao('*');
+            } else if (event.key === '/') {
+                event.preventDefault();
+                adicionarExpressao('/');
+            } else if (event.key === 'Enter' || event.key === '=') {
+                calcular();
+            } else if (event.key === 'Escape') {
+                limpar();
+            } else if (event.key === 'Backspace') {
+                apagar();
+            }
+        });
+
+        // Sincronizar campo manual com display
+        document.querySelector('.calculadora-input-manual').addEventListener('input', function() {
+            expressao = this.value;
+            display.textContent = expressao || '0';
+            expressaoInput.value = expressao;
+        });
+
+        // Funções das calculadoras geométricas
+        function mostrarResultado(elementoId, mensagem) {
+            const elemento = document.getElementById(elementoId);
+            elemento.innerHTML = `<div class="resultado">${mensagem}</div>`;
+        }
+
+        function calcularAreaQuadrado() {
+            const lado = parseFloat(document.getElementById('lado_quadrado').value);
+            if (isNaN(lado)) {
+                mostrarResultado('resultado-quadrado', '<span style="color: #dc3545;">Por favor, digite um valor válido para o lado em cm.</span>');
+                return;
+            }
+            const area = lado * lado;
+            mostrarResultado('resultado-quadrado', `Área: <span class="resultado-valor">${area} cm²</span>`);
+        }
+
+        function calcularAreaRetangulo() {
+            const base = parseFloat(document.getElementById('base_retangulo').value);
+            const altura = parseFloat(document.getElementById('altura_retangulo').value);
+            if (isNaN(base) || isNaN(altura)) {
+                mostrarResultado('resultado-retangulo', '<span style="color: #dc3545;">Por favor, digite valores válidos para base e altura em cm.</span>');
+                return;
+            }
+            const area = base * altura;
+            mostrarResultado('resultado-retangulo', `Área: <span class="resultado-valor">${area} cm²</span>`);
+        }
+
+        function calcularAreaTriangulo() {
+            const base = parseFloat(document.getElementById('base_triangulo').value);
+            const altura = parseFloat(document.getElementById('altura_triangulo').value);
+            const tipo = document.getElementById('tipo_triangulo').value;
+            if (isNaN(base) || isNaN(altura)) {
+                mostrarResultado('resultado-triangulo', '<span style="color: #dc3545;">Por favor, digite valores válidos para base e altura em cm.</span>');
+                return;
+            }
+            const area = (base * altura) / 2;
+            mostrarResultado('resultado-triangulo', `Área do triângulo ${tipo}: <span class="resultado-valor">${area} cm²</span>`);
+        }
+
+        function calcularCirculo() {
+            const raio = parseFloat(document.getElementById('raio').value);
+            if (isNaN(raio)) {
+                mostrarResultado('resultado-circulo', '<span style="color: #dc3545;">Por favor, digite um valor válido para o raio em cm.</span>');
+                return;
+            }
+            const area = Math.PI * raio * raio;
+            const circunferencia = 2 * Math.PI * raio;
+            mostrarResultado('resultado-circulo', 
+                `Área: <span class="resultado-valor">${area.toFixed(2)} cm²</span><br>` +
+                `Circunferência: <span class="resultado-valor">${circunferencia.toFixed(2)} cm</span>`
+            );
+        }
+
+        function calcularPerimetro() {
+            const forma = document.getElementById('forma_perimetro').value;
+            const lado1 = parseFloat(document.getElementById('lado1_perimetro').value);
+            const lado2 = parseFloat(document.getElementById('lado2_perimetro').value) || 0;
+            const lado3 = parseFloat(document.getElementById('lado3_perimetro').value) || 0;
+            
+            if (isNaN(lado1)) {
+                mostrarResultado('resultado-perimetro', '<span style="color: #dc3545;">Por favor, digite pelo menos o lado 1 em cm.</span>');
+                return;
+            }
+            
+            let perimetro = 0;
+            switch (forma) {
+                case 'quadrado':
+                    perimetro = 4 * lado1;
+                    break;
+                case 'retangulo':
+                    if (isNaN(lado2)) {
+                        mostrarResultado('resultado-perimetro', '<span style="color: #dc3545;">Para retângulo, digite base e altura em cm.</span>');
+                        return;
+                    }
+                    perimetro = 2 * (lado1 + lado2);
+                    break;
+                case 'triangulo':
+                    if (isNaN(lado2) || isNaN(lado3)) {
+                        mostrarResultado('resultado-perimetro', '<span style="color: #dc3545;">Para triângulo, digite os três lados em cm.</span>');
+                        return;
+                    }
+                    perimetro = lado1 + lado2 + lado3;
+                    break;
+            }
+            mostrarResultado('resultado-perimetro', `Perímetro do ${forma}: <span class="resultado-valor">${perimetro} cm</span>`);
+        }
+
+        function calcularTrapezio() {
+            const baseMaior = parseFloat(document.getElementById('base_maior').value);
+            const baseMenor = parseFloat(document.getElementById('base_menor').value);
+            const altura = parseFloat(document.getElementById('altura_trapezio').value);
+            
+            if (isNaN(baseMaior) || isNaN(baseMenor) || isNaN(altura)) {
+                mostrarResultado('resultado-trapezio', '<span style="color: #dc3545;">Por favor, digite valores para base maior, base menor e altura em cm.</span>');
+                return;
+            }
+            
+            const area = ((baseMaior + baseMenor) * altura) / 2;
+            mostrarResultado('resultado-trapezio', `Área do trapézio: <span class="resultado-valor">${area} cm²</span>`);
+        }
+
+        function calcularLosango() {
+            const diagonalMaior = parseFloat(document.getElementById('diagonal_maior').value);
+            const diagonalMenor = parseFloat(document.getElementById('diagonal_menor').value);
+            
+            if (isNaN(diagonalMaior) || isNaN(diagonalMenor)) {
+                mostrarResultado('resultado-losango', '<span style="color: #dc3545;">Por favor, digite valores para as diagonais em cm.</span>');
+                return;
+            }
+            
+            const area = (diagonalMaior * diagonalMenor) / 2;
+            mostrarResultado('resultado-losango', `Área do losango: <span class="resultado-valor">${area} cm²</span>`);
+        }
+    </script>
+</body>
+</html>
